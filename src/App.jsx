@@ -304,16 +304,18 @@ export default function App() {
   const [description, setDescription] = useState('')
   const [posterURL, setPosterURL] = useState('')
   const [rating, setRating] = useState(1)
+  const [trailer, setTrailer] = useState('')
 
   function handleAddMovie(e) {
     e.preventDefault()
     if (!title.trim()) return
-    const newMovie = { title: title.trim(), description, posterURL, rating: Number(rating) }
+    const newMovie = { title: title.trim(), description, posterURL, rating: Number(rating), trailer }
     setMovies((prev) => [newMovie, ...prev])
     setTitle('')
     setDescription('')
     setPosterURL('')
     setRating(1)
+    setTrailer('')
   }
 
   const filtered = movies.filter((m) => {
@@ -354,6 +356,11 @@ export default function App() {
                   value={posterURL}
                   onChange={(e) => setPosterURL(e.target.value)}
                   placeholder="Poster URL"
+                />
+                <input
+                  value={trailer}
+                  onChange={(e) => setTrailer(e.target.value)}
+                  placeholder="Trailer embed URL (https://www.youtube.com/embed/...)"
                 />
                 <input
                   value={description}
