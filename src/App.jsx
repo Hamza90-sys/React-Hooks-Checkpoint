@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import { Routes, Route } from 'react-router-dom'
+import MovieDetails from './components/MovieDetails'
 import './App.css'
 import MovieList from './components/MovieList'
 import Filter from './components/Filter'
@@ -9,24 +11,28 @@ const initialMovies = [
     description: 'Two imprisoned men bond over a number of years.',
     posterURL: 'https://m.media-amazon.com/images/I/51NiGlapXlL._AC_.jpg',
     rating: 5,
+    trailer: 'https://www.youtube.com/embed/6hB3S9bIaco',
   },
   {
     title: 'Breaking Bad',
     description: 'A high school chemistry teacher turned methamphetamine producer.',
     posterURL: 'https://m.media-amazon.com/images/I/81G+V1Z1WLL._AC_SY679_.jpg',
     rating: 5,
+    trailer: 'https://www.youtube.com/embed/HhesaQXLuRY',
   },
   {
     title: 'Inception',
     description: 'A thief who steals corporate secrets through the use of dream-sharing technology.',
     posterURL: 'https://m.media-amazon.com/images/I/51s+uGz3JWL._AC_.jpg',
     rating: 4,
+    trailer: 'https://www.youtube.com/embed/8hP9D6kZseM',
   },
   {
     title: 'The Matrix',
     description: 'A computer hacker learns about the true nature of reality and his role in the war.',
     posterURL: 'https://m.media-amazon.com/images/I/51EG732BV3L.jpg',
     rating: 5,
+    trailer: 'https://www.youtube.com/embed/vKQi3bBA1y8',
   },
   {
     title: 'Stranger Things',
@@ -317,56 +323,65 @@ export default function App() {
   })
 
   return (
-    <div>
-      <nav className="top-nav">
-        <div className="brand">My Movies</div>
-        <div className="nav-sub">Favorites &amp; Shows</div>
-      </nav>
+    <Routes>
+      <Route
+        path="/"
+        element={
+          <div>
+            <nav className="top-nav">
+              <div className="brand">My Movies</div>
+              <div className="nav-sub">Favorites &amp; Shows</div>
+            </nav>
 
-      <h1>Browse and Add</h1>
+            <h1>Browse and Add</h1>
 
-      <section className="controls">
-        <Filter
-          searchTitle={searchTitle}
-          setSearchTitle={setSearchTitle}
-          minRating={minRating}
-          setMinRating={setMinRating}
-        />
+            <section className="controls">
+              <Filter
+                searchTitle={searchTitle}
+                setSearchTitle={setSearchTitle}
+                minRating={minRating}
+                setMinRating={setMinRating}
+              />
 
-        <form className="add-form" onSubmit={handleAddMovie}>
-          <input
-            required
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            placeholder="Title"
-          />
-          <input
-            value={posterURL}
-            onChange={(e) => setPosterURL(e.target.value)}
-            placeholder="Poster URL"
-          />
-          <input
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            placeholder="Short description"
-          />
-          <label>
-            Rating:
-            <select value={rating} onChange={(e) => setRating(Number(e.target.value))}>
-              <option value={1}>1</option>
-              <option value={2}>2</option>
-              <option value={3}>3</option>
-              <option value={4}>4</option>
-              <option value={5}>5</option>
-            </select>
-          </label>
-          <button type="submit">Add Movie</button>
-        </form>
-      </section>
+              <form className="add-form" onSubmit={handleAddMovie}>
+                <input
+                  required
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  placeholder="Title"
+                />
+                <input
+                  value={posterURL}
+                  onChange={(e) => setPosterURL(e.target.value)}
+                  placeholder="Poster URL"
+                />
+                <input
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  placeholder="Short description"
+                />
+                <label>
+                  Rating:
+                  <select value={rating} onChange={(e) => setRating(Number(e.target.value))}>
+                    <option value={1}>1</option>
+                    <option value={2}>2</option>
+                    <option value={3}>3</option>
+                    <option value={4}>4</option>
+                    <option value={5}>5</option>
+                  </select>
+                </label>
+                <button type="submit">Add Movie</button>
+              </form>
+            </section>
 
-      <main>
-        <MovieList movies={filtered} />
-      </main>
-    </div>
+            <main>
+              <MovieList movies={filtered} />
+            </main>
+          </div>
+        }
+      />
+
+      <Route path="/movies/:id" element={<MovieDetails movies={movies} />} />
+    </Routes>
   )
 }
